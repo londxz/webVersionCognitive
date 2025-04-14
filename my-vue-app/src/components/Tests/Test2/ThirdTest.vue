@@ -91,7 +91,7 @@ export default {
       score: 0,
       questions: [
         {
-          image: require('./static/test3/1.jpg'),
+          image: 'https://i.imgur.com/zZTSx7k.jpeg',
           question: "Укажите правильный ответ",
           answers: [
             { text: '3', correct: false },
@@ -101,7 +101,7 @@ export default {
           ],
         },
         {
-          image: require('./static/test3/2.jpg'),
+          image: 'https://i.imgur.com/Em451ow.jpeg',
           question: "Укажите правильный ответ",
           answers: [
             { text: '3', correct: false },
@@ -111,7 +111,7 @@ export default {
           ],
         },
         {
-          image: require('./static/test3/3.jpg'),
+          image: 'https://i.imgur.com/tkAbQey.jpeg',
           question: "Укажите правильный ответ",
           answers: [
             { text: '3', correct: false },
@@ -121,7 +121,7 @@ export default {
           ],
         },
         {
-          image: require('./static/test3/4.jpg'),
+          image: 'https://i.imgur.com/G2TnE7W.jpeg',
           question: "Укажите правильный ответ",
           answers: [
             { text: '8', correct: false },
@@ -131,7 +131,7 @@ export default {
           ],
         },
         {
-          image: require('./static/test3/5.jpg'),
+          image: 'https://i.imgur.com/sfYYtqK.jpeg',
           question: "Укажите правильный ответ",
           answers: [
             { text: '4', correct: false },

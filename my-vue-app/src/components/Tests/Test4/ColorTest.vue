@@ -745,86 +745,28 @@ export default {
 
 /* Адаптивность для мобильных устройств */
 @media (max-width: 640px) {
-  .intro-screen h2, .results-title {
-    font-size: 22px;
-  }
-  
-  .intro-screen p, .question-text, .result-message p {
-    font-size: 14px;
-  }
-  
-  .score-circle {
-    width: 100px;
-    height: 100px;
-  }
-  
-  .score-value {
-    font-size: 32px;
-  }
-  
-  .score-total {
-    font-size: 18px;
-    right: 25px;
-  }
-  
-  .intro-icon, .results-icon {
-    width: 60px;
-    height: 60px;
-  }
-  
   .grid-item {
-    width: 65px;
-    height: 65px;
+    width: 50px;  /* Уменьшение ширины квадрата */
+    height: 50px; /* Уменьшение высоты квадрата */
   }
   
   .color-grid {
-    gap: 8px;
+    gap: 5px; /* Уменьшение отступов между квадратами */
   }
   
-  .stats-bar {
-    flex-direction: row;
-    gap: 1rem;
-    padding: 0.75rem;
+  .grid-small {
+    grid-template-columns: repeat(2, 1fr); /* 2 колонки для маленькой сетки */
+    grid-template-rows: repeat(2, 1fr);
   }
-  
-  .stat-item {
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    gap: 0.5rem;
+
+  .grid-medium {
+    grid-template-columns: repeat(3, 1fr); /* 3 колонки для средней сетки */
+    grid-template-rows: repeat(3, 1fr);
   }
-  
-  .stat-value {
-    font-size: 16px;
-  }
-  
-  .stat-label {
-    font-size: 11px;
-  }
-  
-  .instruction-box {
-    padding: 1rem;
-  }
-  
-  .instruction-box h3 {
-    font-size: 16px;
-  }
-  
-  .instruction-box ol {
-    padding-left: 1rem;
-  }
-  
-  .results-screen {
-    padding: 1.5rem;
-  }
-  
-  .feedback-message {
-    padding: 0.5rem;
-  }
-  
-  .skip-button {
-    font-size: 12px;
-    padding: 0.4rem 0.75rem;
+
+  .grid-large {
+    grid-template-columns: repeat(4, 1fr); /* 4 колонки для большой сетки */
+    grid-template-rows: repeat(4, 1fr);
   }
 }
 </style>

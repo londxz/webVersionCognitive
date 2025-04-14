@@ -28,7 +28,7 @@
         <h3 class="question-text">Соберите изображение, перетаскивая фрагменты</h3>
         
         <div class="puzzle-grid" 
-             :style="{ gridTemplateColumns: `repeat(${gridX}, 1fr)`, gridTemplateRows: `repeat(${gridY}, 1fr)` }">
+        :style="{ gridTemplateColumns: `repeat(${gridX}, 1fr)`, gridTemplateRows: `repeat(${gridY}, 1fr)` }">
           <div
             v-for="(piece, index) in shuffledPieces"
             :key="index"
@@ -37,6 +37,7 @@
             @dragstart="dragStart(index)"
             @dragover.prevent
             @drop="drop(index)"
+            @click="handlePieceClick(index)" 
             draggable="true"
           ></div>
         </div>
@@ -124,12 +125,13 @@ export default {
       isFinished: false,
       errorMessage: "",
       levelImages: [
-        require('./static5/puzzle1.jpg'),
-        require('./static5/puzzle2.jpg'),
-        require('./static5/puzzle3.jpg'),
-        require('./static5/puzzle4.jpg'),
-        require('./static5/puzzle5.jpg')
-      ]
+        'https://i.imgur.com/S7e0ZVG.jpeg',
+        'https://i.imgur.com/mDMhTAU.jpeg',
+        'https://i.imgur.com/BTIbfAS.jpeg',
+        'https://i.imgur.com/WpuHQxI.jpeg',
+        'https://i.imgur.com/vFhmOxb.jpeg'
+      ],
+      firstSelectedIndex: null,
     };
   },
   computed: {
@@ -150,7 +152,6 @@ export default {
       this.generatePuzzle();
       this.$emit('test-start');
     },
-    
     restartTest() {
       this.startTest();
     },
@@ -217,6 +218,16 @@ export default {
       }
       
       this.shuffledPieces = array;
+    },
+
+    handlePieceClick(index) {
+      if (this.firstSelectedIndex === null) {
+        this.firstSelectedIndex = index;
+      } else {
+        [this.shuffledPieces[this.firstSelectedIndex], this.shuffledPieces[index]] =
+        [this.shuffledPieces[index], this.shuffledPieces[this.firstSelectedIndex]];
+        this.firstSelectedIndex = null;
+      }
     },
 
     dragStart(index) {

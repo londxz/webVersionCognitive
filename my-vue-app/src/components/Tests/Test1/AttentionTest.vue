@@ -27,17 +27,16 @@
 
       <div class="question-container">
         <div class="words-container">
-          <div class="words">
-            <span
-              v-for="(word, index) in taskWords"
-              :key="index"
-              :style="{ color: word.color }"
-              class="word"
-            >
-              {{ word.text }}
-            </span>
-          </div>
-        </div>
+          <span
+          v-for="(word, index) in taskWords"
+          :key="index"
+          :style="{ color: word.color }"
+          class="word"
+        >
+        {{ word.text }}
+      </span>
+    </div>
+  </div>
         
         <h3 class="question-text">Выберите вариант, который правильно описывает ЦВЕТА слов (не их значения):</h3>
         
@@ -88,7 +87,6 @@
         <button @click="restartTest" class="action-button">Пройти тест снова</button>
       </div>
     </div>
-  </div>
 </template>
 
 <script>
@@ -299,13 +297,26 @@ export default {
 }
 
 .words-container {
-  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* Два столбца */
+  gap: 10px; /* Промежуток между словами */
   margin: 20px 0;
-  padding: 1.5rem;
+  padding: 1rem;
   background-color: #f9fafb;
   border-radius: 10px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
+
+.word {
+  font-size: 18px; /* Размер шрифта для обычных устройств */
+  padding: 8px 12px;
+  background-color: rgba(0, 0, 0, 0.05);
+  border-radius: 8px;
+  display: flex;
+  justify-content: center; /* Центрирование текста */
+  align-items: center; /* Центрирование текста по вертикали */
+}
+
 
 .words {
   display: flex;
@@ -315,15 +326,6 @@ export default {
   gap: 10px;
   margin: 0 auto;
   max-width: 90%;
-}
-
-.word {
-  font-size: 24px;
-  padding: 10px 15px;
-  background-color: rgba(0, 0, 0, 0.05);
-  border-radius: 8px;
-  display: inline-block;
-  font-weight: 600;
 }
 
 .question-text {
@@ -474,6 +476,15 @@ export default {
 
 /* Адаптивность для мобильных устройств */
 @media (max-width: 640px) {
+  .words-container {
+    grid-template-columns: repeat(2, 1fr); /* Два столбца на мобильных устройствах */
+    gap: 8px; /* Уменьшенный промежуток */
+  }
+  .word {
+    font-size: 16px; /* Уменьшенный размер шрифта */
+    padding: 6px 10px; /* Уменьшенные отступы */
+  }
+
   .intro-screen h2, .results-title {
     font-size: 22px;
   }
@@ -499,15 +510,6 @@ export default {
   .intro-icon, .results-icon {
     width: 60px;
     height: 60px;
-  }
-  
-  .words-container {
-    padding: 1rem;
-  }
-  
-  .word {
-    font-size: 20px;
-    padding: 8px 12px;
   }
   
   .option-button {

@@ -23,7 +23,7 @@ export default createStore({
       localStorage.removeItem('testResults');
       axios.defaults.headers.common['Authorization'] = '';
     },
-    addTestResult(state, result) {
+    async addTestResult(state, result) {
       // Проверяем, есть ли уже результат для этого теста
       const existingIndex = state.testResults.findIndex(
         r => r.test.test_name === result.test.test_name && r.try_number === result.try_number
@@ -43,17 +43,29 @@ export default createStore({
       
       // Сохраняем в localStorage
       localStorage.setItem('testResults', JSON.stringify(state.testResults));
-    },
+    if (!state.token) return;
+
+      try {
+        const response = await axios.post('https://georgiy.pythonanywhere.com/api/add-result/', result, {
+          headers: {
+            Authorization: `Token ${state.token}`,
+          },
+        });
+        return response.data;
+      } catch (error) {
+        console.error('Failed to add result:', error);
+        throw error;
+      }
+      },
   },
   actions: {
     async register({ commit }, userData) {
       try {
         console.log('Отправляемые данные:', userData);
         
-        const response = await axios.post('http://localhost:8000/api/register/', userData);
+        const response = await axios.post('https://georgiy.pythonanywhere.com/api/register/', userData);
         console.log('Ответ сервера:', response.data);
         
-        // Используем response.data.token вместо response.data.access
         if (response.data.token) {
           commit('setToken', response.data.token);
         }
@@ -73,20 +85,17 @@ export default createStore({
       try {
         console.log('Данные для входа:', credentials);
         
-        // Попробуем стандартный формат для Django Rest Framework
-        const response = await axios.post('http://localhost:8000/api/login/', {
+        const response = await axios.post('https://georgiy.pythonanywhere.com/api/login/', {
           username: credentials.username,
           password: credentials.password
         });
         
         console.log('Ответ сервера при входе:', response.data);
         
-        // Для Django Rest Framework обычно токен возвращается как response.data.token
         const token = response.data.token || response.data.access || response.data.key;
         
         if (token) {
           commit('setToken', token);
-          // Для TokenAuthentication в Django Rest Framework
           axios.defaults.headers.common['Authorization'] = `Token ${token}`;
           await this.dispatch('fetchUser');
         } else {
@@ -112,13 +121,13 @@ export default createStore({
       if (!state.token) return;
 
       try {
-        const response = await axios.get('http://localhost:8000/api/user/', {
+        const response = await axios.get('https://georgiy.pythonanywhere.com/api/user/', {
           headers: {
-            Authorization: `Bearer ${state.token}`, // Убедитесь, что токен передаётся
+            Authorization: `Token ${state.token}`,
           },
         });
         console.log(response);
-        commit('setUser', response.data); // Сохраняем данные пользователя
+        commit('setUser', response.data);
       } catch (error) {
         console.error('Failed to fetch user data:', error);
       }

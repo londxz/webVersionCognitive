@@ -11,17 +11,6 @@
             <input id="username" v-model="user.username" placeholder="Имя пользователя" required>
           </div>
         </div>
-        
-        <div class="form-row">
-          <div class="nice-form-group">
-            <label for="first_name">Имя</label>
-            <input id="first_name" v-model="user.first_name" placeholder="Имя">
-          </div>
-          <div class="nice-form-group">
-            <label for="last_name">Фамилия</label>
-            <input id="last_name" v-model="user.last_name" placeholder="Фамилия">
-          </div>
-        </div>
       </div>
       
       <!-- Личная информация -->
@@ -104,12 +93,6 @@
           </div>
           <div class="nice-form-group checkbox-group">
             <label>
-              <input v-model="user.sport" type="checkbox">
-              <span>Занимаюсь спортом</span>
-            </label>
-          </div>
-          <div class="nice-form-group checkbox-group">
-            <label>
               <input v-model="user.insomnia" type="checkbox">
               <span>Страдаю бессонницей</span>
             </label>
@@ -123,6 +106,10 @@
         </div>
         
         <div class="form-row">
+          <div class="nice-form-group">
+            <label for="sport">Занимаюсь спортом</label>
+            <textarea id="sport" v-model="user.diseases" placeholder="Укажите виды спорта (если занимаетесь)" rows="2"></textarea>
+          </div>
           <div class="nice-form-group">
             <label for="diseases">Заболевания</label>
             <textarea id="diseases" v-model="user.diseases" placeholder="Укажите ваши заболевания (если есть)" rows="2"></textarea>
@@ -173,8 +160,6 @@ export default {
     return {
       user: {
         username: '',
-        first_name: '',
-        last_name: '',
         age: null,
         education: '',
         specialty: '',
@@ -185,7 +170,7 @@ export default {
         diseases: '',
         smoking: false,
         alcohol: false,
-        sport: false,
+        sport: '',
         insomnia: false,
         current_mood: '',
         gamer: false,

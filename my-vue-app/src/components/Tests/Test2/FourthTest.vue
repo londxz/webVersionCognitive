@@ -85,9 +85,8 @@
           </div>
           
           <h3 class="level-result-title">
-            {{ lastLevelSuccess ? 'Правильно!' : 'Неверно!' }}
+            {{ lastLevelSuccess ? 'Правильно!' : 'Попробуй ещё раз!' }}
           </h3>
-          
           <div class="numbers-comparison">
             <div class="original-numbers">
               <h4>Исходные числа:</h4>
@@ -107,14 +106,28 @@
           >
             Следующий уровень
           </button>
+          <template v-else-if="currentLevel < maxLevels && !lastLevelSuccess && allowContinue">
           <button 
-            v-else-if="currentLevel < maxLevels && !lastLevelSuccess" 
+            @click="continueTest" 
+            class="action-button"
+          >
+            Продолжить тест
+        </button>
+        <button 
             @click="retryLevel" 
             class="retry-button"
-          >
-            Повторить уровень
-          </button>
-          <button 
+            >
+              Повторить уровень
+        </button>
+        </template>
+        <button 
+        v-else-if="currentLevel < maxLevels && !lastLevelSuccess" 
+        @click="retryLevel" 
+        class="retry-button"
+        >
+          Повторить уровень
+      </button>
+        <button 
             v-else 
             @click="finishTest" 
             class="action-button"
@@ -183,9 +196,11 @@ export default {
       inputs: [],
       remainingTime: 0,
       timer: null,
-      attempts: 0
+      attempts: 0,
+      allowContinue: false,
     };
   },
+  
   computed: {
     visibleNumbers() {
       return this.currentLevelNumbers;
@@ -252,14 +267,24 @@ export default {
       const correct = this.currentLevelNumbers.every((num, index) => {
         return num === Number(this.inputs[index]);
       });
-      
+      let errorCount = 0;
+      for (let i = 0; i < this.currentLevelNumbers.length; i++) {
+        if (this.currentLevelNumbers[i] !== Number(this.inputs[i])) {
+          errorCount++;
+        }
+      }
       this.lastLevelSuccess = correct;
-      this.showLevelResult = true;
       
+      if (!correct && this.currentLevel >= 4 && errorCount <= 2) {
+        this.allowContinue = true;
+      } else {
+        this.allowContinue = false;
+      }
+      
+      this.showLevelResult = true;
       if (correct) {
         this.score = this.currentLevel;
       }
-      
       this.attempts++;
     },
     
@@ -268,11 +293,19 @@ export default {
     },
     
     nextLevel() {
+      this.allowContinue = false; // Сбрасываем флаг
+      this.currentLevel++;
+      this.generateLevel();
+    },
+
+    continueTest() {
+      this.allowContinue = false; // Сбрасываем флаг
       this.currentLevel++;
       this.generateLevel();
     },
     
     retryLevel() {
+      this.allowContinue = false;
       this.generateLevel();
     },
     
@@ -720,24 +753,49 @@ export default {
   line-height: 1.5;
 }
 
+/* Стили для основных кнопок */
 .action-button {
+  padding: 0.75rem 1.5rem; /* Увеличенные отступы */
+  background-color: #14b8a6; /* Цвет фона */
+  color: white; /* Цвет текста */
+  border: none; /* Убираем границу */
+  border-radius: 8px; /* Закругленные углы */
+  font-size: 16px; /* Размер текста */
+  font-weight: 500; /* Жирность текста */
+  cursor: pointer; /* Курсор при наведении */
+  transition: background-color 0.2s ease; /* Плавный переход */
+  margin-top: 1rem; /* Отступ между кнопками */
+  width: 100%; /* Ширина кнопки */
+  max-width: 200px; /* Максимальная ширина */
+}
+
+.action-button:hover {
+  background-color: #0d9488; /* Цвет при наведении */
+}
+
+.action-button:active {
+  background-color: #0c7a73; /* Цвет при нажатии */
+}
+
+/* Стили для кнопки повтора */
+.retry-button {
   padding: 0.75rem 1.5rem;
-  background-color: #14b8a6;
-  color: white;
-  border: none;
+  background-color: #f3f4f6; /* Светлый фон */
+  color: #1f2937; /* Темный текст */
+  border: 1px solid #d1d5db; /* Граница */
   border-radius: 8px;
   font-size: 16px;
   font-weight: 500;
   cursor: pointer;
-  transition: background-color 0.2s ease;
+  transition: all 0.2s ease;
+  margin-top: 1rem;
+  width: 100%;
+  max-width: 200px;
 }
 
-.action-button:hover {
-  background-color: #0d9488;
-}
-
-.action-button:active {
-  transform: translateY(1px);
+.retry-button:hover {
+  background-color: #e5e7eb; /* Цвет при наведении */
+  border-color: #9ca3af;
 }
 
 /* Адаптивность для мобильных устройств */

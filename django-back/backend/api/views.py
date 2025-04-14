@@ -2,6 +2,7 @@ from rest_framework import viewsets, status
 from rest_framework.response import Response
 from rest_framework.decorators import action
 from rest_framework.authtoken.models import Token
+from rest_framework.decorators import api_view
 from django.contrib.auth import authenticate
 from .models import User, TestNSI, TestResults
 from .serializers import UserSerializer, RegisterSerializer, TestNSISerializer, TestResultsSerializer
@@ -14,8 +15,7 @@ class UserViewSet(viewsets.ModelViewSet):
 
     @action(detail=False, methods=['post'], permission_classes=[AllowAny])
     def register(self, request):
-        print(request.data)
-        serializer = RegisterSerializer(data=request.data)
+        serializer = RegisterSerializer(data=request.data)  # Используем RegisterSerializer
         if serializer.is_valid():
             user = serializer.save()
             token, created = Token.objects.get_or_create(user=user)
@@ -26,7 +26,9 @@ class UserViewSet(viewsets.ModelViewSet):
     def login(self, request):
         username = request.data.get('username')
         password = request.data.get('password')
+        print(f"Попытка входа: username={username}, password={password}")
         user = authenticate(username=username, password=password)
+        print(f"Результат аутентификации: {user}")
         if user:
             token, created = Token.objects.get_or_create(user=user)
             return Response({'token': token.key}, status=status.HTTP_200_OK)
@@ -48,17 +50,18 @@ class ResultsViewSet(viewsets.ModelViewSet):
         if not request.user.is_authenticated:
             return Response({"error": "User is not authenticated"}, status=status.HTTP_401_UNAUTHORIZED)
 
-        trueTest = TestNSI.objects.get(test_name=request.data['testName']).test_id
         print(f"User: {request.user}, Data: {request.data}")
         data = request.data.copy()
-        dataToDB = {
-            'test': trueTest,
-            'number_correct_answers': request.data['number_correct_answers'],
-            'number_all_answers': request.data['number_all_answers'],
-            'accuracy': request.data['accuracy'],
-            'try_number': request.data['try_number'],
+        test = TestNSI.objects.get(test_name=request.data.get('test').get('test_name'))
+        data = {
+            'test': test.test_id,
+            'number_correct_answers': request.data.get('number_correct_answers'),
+            'number_all_answers': request.data.get('number_all_answers'),
+            'accuracy': request.data.get('accuracy'),
+            'try_number': request.data.get('try_number'),
         }
-        serializer = TestResultsSerializer(data=dataToDB, context={'user': request.user})
+
+        serializer = TestResultsSerializer(data=data, context={'user': request.user})
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)

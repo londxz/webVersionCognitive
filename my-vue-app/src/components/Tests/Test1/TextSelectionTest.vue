@@ -19,15 +19,14 @@
           <h3>Инструкция:</h3>
           <ol>
             <li>В тексте ниже скрыто <strong>{{ totalWords }}</strong> слов.</li>
-            <li><strong>Нажимайте на слова</strong>, чтобы выделить их.</li>
+            <li><strong>Нажимайте на буквы</strong>, чтобы выделить их.</li>
             <li>Найденные слова отобразятся в списке внизу.</li>
             <li>Когда найдете все слова, нажмите "Завершить тест".</li>
           </ol>
           <div class="example-box">
-            <p>Например, в тексте <strong>"клодфир<span class="example-highlight">кошка</span>довоапрягл"</strong> вы можете найти слово <strong>"кошка"</strong>, нажав на любую из её букв.</p>
+            <p>Например, в тексте <strong>"клодфир<span class="example-highlight">кошка</span>довоапрягл"</strong> вы можете найти слово <strong>"кошка"</strong>, нажав на все её буквы.</p>
           </div>
         </div>
-        
         <button @click="startTest" class="action-button">Начать тест</button>
       </div>
     </div>
@@ -42,22 +41,20 @@
         Найдено: {{ selectedWords.length }} из {{ totalWords }}
       </div>
 
+      <div class="text-area">
+        <span
+          v-for="(char, index) in textChars"
+          :key="index"
+          @click="selectChar(index)"
+          :class="{ 'highlighted': isHighlighted(index) }"
+          class="char"
+        >
+          {{ char }}
+        </span>
+      </div>
+
       <div class="question-container">
-        <h3 class="question-text">Нажимайте на слова в тексте ниже:</h3>
-        
-        <div class="text-area-container">
-          <div class="text-area">
-            <span 
-              v-for="(char, index) in textChars" 
-              :key="index" 
-              @click="checkWordAt(index)"
-              :class="{ 'highlighted': isHighlighted(index) }"
-              class="char"
-            >
-              {{ char }}
-            </span>
-          </div>
-        </div>
+        <h3 class="question-text">Нажимайте на буквы в тексте ниже:</h3>
         
         <div class="found-words">
           <h4>Найденные слова ({{ selectedWords.length }}):</h4>
@@ -137,7 +134,7 @@ export default {
       selectedWords: [],
       totalWords: 23,
       showResults: false,
-      highlightedIndices: {}
+      highlightedIndices: {},
     };
   },
   computed: {
@@ -149,125 +146,62 @@ export default {
     }
   },
   created() {
-    // Генерируем текст при создании компонента
     this.generateTextWithWords();
   },
   methods: {
-    // Метод для генерации текста со встроенными словами и случайными буквами
     generateTextWithWords() {
-      // Массив для хранения позиций начала каждого слова
-      const wordPositions = [];
-      // Общая длина текста (будем формировать строку из случайных букв)
       const totalLength = 300;
-      // Создаем массив из случайных букв
       const randomLetters = Array(totalLength).fill().map(() => this.getRandomLetter());
+      const wordPositions = [];
       
-      // Словарь для хранения позиций начала слов
-      const wordStartPositions = {};
-      
-      // Встраиваем все слова в случайные позиции
       for (const word of this.words) {
         let positioned = false;
         let attempts = 0;
         
-        // Пытаемся разместить слово в случайной позиции
         while (!positioned && attempts < 50) {
-          // Выбираем случайную позицию, оставляя достаточно места для слова
           const startPos = Math.floor(Math.random() * (totalLength - word.length));
-          
-          // Проверяем, не перекрывается ли с уже размещенными словами
           let canPlace = true;
+          
           for (let i = 0; i < word.length; i++) {
-            const pos = startPos + i;
-            if (wordPositions.includes(pos)) {
-              canPlace = false;
-              break;
+            if (wordPositions.includes(startPos + i)) {
+                canPlace = false;
+                break;
             }
           }
           
           if (canPlace) {
-            // Размещаем слово
             for (let i = 0; i < word.length; i++) {
               randomLetters[startPos + i] = word.charAt(i);
               wordPositions.push(startPos + i);
             }
-            
-            // Запоминаем позицию начала слова
-            wordStartPositions[word] = startPos;
             positioned = true;
           }
-          
           attempts++;
         }
       }
-      
-      // Сохраняем сгенерированный текст
       this.text = randomLetters.join('');
-      
-      // Сохраняем информацию о позициях слов (для отладки)
-      this.wordStartPositions = wordStartPositions;
     },
     
     getRandomLetter() {
       const letters = 'абвгдеёжзийклмнопрстуфхцчшщъыьэюя';
       return letters.charAt(Math.floor(Math.random() * letters.length));
     },
-    
-    startTest() {
-      this.testStarted = true;
-      this.selectedWords = [];
-      this.showResults = false;
-      this.highlightedIndices = {};
-      this.$emit('test-start');
+
+    selectChar(index) {
+      this.highlightedIndices[index] = !this.highlightedIndices[index];
+      this.checkWordCompletion();
     },
     
-    isHighlighted(index) {
-      return this.highlightedIndices[index] === true;
-    },
-    
-    // Улучшенный метод для проверки слова при нажатии на символ
-    checkWordAt(index) {
-      // Проверяем все возможные слова, начинающиеся или заканчивающиеся на данном индексе
-      const maxWordLength = Math.max(...this.words.map(w => w.length));
-      
-      // Проверяем слова, начинающиеся с текущей позиции
-      for (let length = 2; length <= maxWordLength; length++) {
-        if (index + length <= this.text.length) {
-          const potentialWord = this.text.substring(index, index + length);
-          
-          if (this.words.includes(potentialWord) && !this.selectedWords.includes(potentialWord)) {
-            // Нашли слово! Добавляем его в выбранные
-            this.selectedWords.push(potentialWord);
-            
-            // Подсвечиваем буквы этого слова
-            for (let i = 0; i < potentialWord.length; i++) {
-              this.highlightedIndices[index + i] = true;
-            }
-            
-            return;
+    checkWordCompletion() {
+      this.words.forEach(word => {
+        const startIndex = this.text.indexOf(word);
+        if (startIndex !== -1) {
+          const allSelected = [...word].every((char, index) => this.highlightedIndices[startIndex + index]);
+          if (allSelected && !this.selectedWords.includes(word)) {
+            this.selectedWords.push(word);
           }
         }
-      }
-      
-      // Проверяем слова, заканчивающиеся на текущей позиции
-      for (let length = 2; length <= maxWordLength; length++) {
-        if (index - length + 1 >= 0) {
-          const startIndex = index - length + 1;
-          const potentialWord = this.text.substring(startIndex, index + 1);
-          
-          if (this.words.includes(potentialWord) && !this.selectedWords.includes(potentialWord)) {
-            // Нашли слово! Добавляем его в выбранные
-            this.selectedWords.push(potentialWord);
-            
-            // Подсвечиваем буквы этого слова
-            for (let i = 0; i < potentialWord.length; i++) {
-              this.highlightedIndices[startIndex + i] = true;
-            }
-            
-            return;
-          }
-        }
-      }
+      });
     },
     
     finishTest() {
@@ -277,7 +211,19 @@ export default {
     
     restartTest() {
       this.startTest();
-    }
+    },
+    
+    startTest() {
+      this.testStarted = true;
+      this.selectedWords = [];
+      this.showResults = false;
+      this.highlightedIndices = {};
+      this.$emit('test-start');
+    },
+
+    isHighlighted(index) {
+      return this.highlightedIndices[index];
+    },
   }
 };
 </script>
@@ -397,84 +343,33 @@ export default {
 }
 
 .question-counter {
-  padding: 1rem;
-  text-align: center;
-  font-size: 14px;
-  color: #6b7280;
-  border-bottom: 1px solid #f3f4f6;
-}
-
-.question-container {
-  padding: 1.5rem;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.question-text {
-  font-size: 18px;
-  font-weight: 600;
-  color: #1f2937;
-  margin-bottom: 1.5rem;
-  text-align: center;
-}
-
-.text-area-container {
-  width: 100%;
-  max-width: 600px;
-  margin-bottom: 1.5rem;
-  background-color: #f8fafc;
-  border-radius: 12px;
-  padding: 1.5rem;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-  overflow-wrap: break-word;
-  word-wrap: break-word;
+  margin: 1rem 0;
+  font-size: 16px;
+  color: #4b5563;
 }
 
 .text-area {
-  width: 100%;
   display: flex;
   flex-wrap: wrap;
-  justify-content: flex-start;
-  line-height: 1.8;
+  margin-bottom: 1rem;
 }
 
 .char {
-  display: inline-block;
-  font-family: 'Courier New', monospace;
-  font-size: 22px;
-  padding: 5px 3px;
-  margin: 2px;
-  color: #1e293b;
   cursor: pointer;
-  transition: all 0.15s ease;
-  user-select: none;
-  border-radius: 4px;
+  padding: 0.5rem;
+  font-size: 20px;
 }
 
-.char:hover {
-  background-color: #e0f2fe;
-  transform: scale(1.1);
-}
-
-.char.highlighted {
+.highlighted {
   background-color: #d1fae5;
-  color: #065f46;
-  font-weight: bold;
-  box-shadow: 0 0 0 1px #10b981;
+}
+
+.question-container {
+  padding: 1rem;
 }
 
 .found-words {
-  width: 100%;
-  max-width: 600px;
-  margin-bottom: 1.5rem;
-}
-
-.found-words h4 {
-  font-size: 16px;
-  font-weight: 600;
-  color: #1f2937;
-  margin-bottom: 0.75rem;
+  margin-top: 1rem;
 }
 
 .word-chips {
@@ -484,201 +379,14 @@ export default {
 }
 
 .word-chip {
-  padding: 0.5rem 0.75rem;
   background-color: #e0f2fe;
-  color: #0369a1;
-  border-radius: 1rem;
-  font-size: 0.875rem;
-  font-weight: 500;
-}
-
-.word-chip.missed {
-  background-color: #fef9c3;
-  color: #a16207;
-}
-
-/* Стили экрана результатов */
-.results-screen {
-  padding: 2rem;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  background-color: white;
   border-radius: 12px;
+  padding: 0.5rem 1rem;
+  color: #0d9488;
 }
 
-.results-content {
-  max-width: 600px;
-}
-
-.results-icon {
-  display: inline-flex;
-  justify-content: center;
-  align-items: center;
-  width: 80px;
-  height: 80px;
+.missed {
   background-color: #fee2e2;
-  border-radius: 50%;
-  margin-bottom: 1.5rem;
-  color: #ef4444;
-}
-
-.results-icon.high-score {
-  background-color: #dcfce7;
-  color: #10b981;
-}
-
-.results-title {
-  color: #1f2937;
-  font-size: 24px;
-  margin-bottom: 1.5rem;
-}
-
-.score-display {
-  margin-bottom: 1.5rem;
-}
-
-.score-circle {
-  display: inline-flex;
-  justify-content: center;
-  align-items: center;
-  width: 120px;
-  height: 120px;
-  background-color: #f0f4ff;
-  border-radius: 50%;
-  margin-bottom: 0.5rem;
-  position: relative;
-}
-
-.score-value {
-  font-size: 40px;
-  font-weight: 700;
-  color: #3b4ce2;
-}
-
-.score-total {
-  font-size: 20px;
-  color: #6b7280;
-  position: absolute;
-  top: 50%;
-  right: 30px;
-}
-
-.score-label {
-  color: #6b7280;
-  font-size: 14px;
-  margin: 0;
-}
-
-.result-message {
-  margin-bottom: 1.5rem;
-  padding: 1rem;
-  background-color: #f9fafb;
-  border-radius: 8px;
-}
-
-.result-message p {
-  margin: 0;
-  color: #4b5563;
-  font-size: 16px;
-  line-height: 1.5;
-}
-
-.missed-words {
-  margin-bottom: 2rem;
-  width: 100%;
-}
-
-.missed-words h4 {
-  font-size: 16px;
-  font-weight: 600;
-  color: #1f2937;
-  margin-bottom: 0.75rem;
-}
-
-.action-button {
-  padding: 0.75rem 1.5rem;
-  background-color: #3b4ce2;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  font-size: 16px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: background-color 0.2s ease;
-}
-
-.action-button:hover {
-  background-color: #2d3ebd;
-}
-
-.action-button:active {
-  transform: translateY(1px);
-}
-
-/* Адаптивность для мобильных устройств */
-@media (max-width: 640px) {
-  .intro-screen h2, .results-title {
-    font-size: 22px;
-  }
-  
-  .intro-screen p, .question-text, .result-message p {
-    font-size: 14px;
-  }
-  
-  .score-circle {
-    width: 100px;
-    height: 100px;
-  }
-  
-  .score-value {
-    font-size: 32px;
-  }
-  
-  .score-total {
-    font-size: 18px;
-    right: 25px;
-  }
-  
-  .intro-icon, .results-icon {
-    width: 60px;
-    height: 60px;
-  }
-  
-  .char {
-    font-size: 20px;
-    padding: 4px 2px;
-    margin: 1px;
-  }
-  
-  .text-area-container {
-    padding: 1rem 0.5rem;
-  }
-  
-  .text-area {
-    justify-content: center;
-  }
-  
-  .word-chip {
-    font-size: 0.75rem;
-    padding: 0.375rem 0.625rem;
-  }
-  
-  .instruction-box {
-    padding: 1rem;
-  }
-  
-  .instruction-box h3 {
-    font-size: 16px;
-  }
-  
-  .instruction-box ol {
-    padding-left: 1rem;
-  }
-  
-  .example-box {
-    padding: 0.75rem;
-  }
+  color: #b91c1c;
 }
 </style>

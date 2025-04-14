@@ -106,7 +106,7 @@ export default {
       questions: [
         {
           questionText: "При правильном соединении верхние части головоломки создадут одну из следующих фигур (1-5). Обратите внимание, что стороны, которые обозначены одинаковыми буквами (А, В, С), должны соприкасаться между собой. Выберите правильный ответ.",
-          image: require('./static3/test2/1.png'),
+          image: 'https://i.imgur.com/87ZioVU.png',
           answers: [
             { text: "Ответ 1", correct: true },
             { text: "Ответ 2", correct: false },
@@ -117,7 +117,7 @@ export default {
         },
         {
           questionText: "При правильном соединении верхние части головоломки создадут одну из следующих фигур (1-5). Обратите внимание, что стороны, которые обозначены одинаковыми буквами (А, B, С) должны соприкасаться между собой. Выберите правильный ответ.",
-          image: require('./static3/test2/2.png'),
+          image: 'https://i.imgur.com/8iwkYCi.png',
           answers: [
             { text: "Ответ 1", correct: false },
             { text: "Ответ 2", correct: false },
@@ -128,7 +128,7 @@ export default {
         },
         {
           questionText: "Какой из четырех возможных вариантов представляет собой куб в сложенном виде?",
-          image: require('./static3/test2/3.png'),
+          image: 'https://i.imgur.com/OffiyET.png',
           answers: [
             { text: "Ответ 1", correct: false },
             { text: "Ответ 2", correct: false },
@@ -138,7 +138,7 @@ export default {
         },
         {
           questionText: "Какой из четырех возможных вариантов представляет верхний куб, показанный с другого ракурса? Каждая грань куба уникальна и не повторяется.",
-          image: require('./static3/test2/4.png'),
+          image: 'https://i.imgur.com/cNQ8KeM.png',
           answers: [
             { text: "Ответ 1", correct: false },
             { text: "Ответ 2", correct: true },
@@ -148,7 +148,7 @@ export default {
         },
         {
           questionText: "Вверху представлена фигура. Из следующих 5 вариантов выберите один, изображающий ту же фигуру.",
-          image: require('./static3/test2/5.png'),
+          image: 'https://i.imgur.com/f8YXPFo.png',
           answers: [
             { text: "Ответ 1", correct: false },
             { text: "Ответ 2", correct: false },
@@ -159,7 +159,7 @@ export default {
         },
         {
           questionText: "Укажите правильную комбинацию фигур после вращения верхней модели (обе точки должны располагаться в тех же углах).",
-          image: require('./static3/test2/6.png'),
+          image: 'https://i.imgur.com/bxyxhiK.png',
           answers: [
             { text: "Ответ 1", correct: false },
             { text: "Ответ 2", correct: true },
@@ -170,7 +170,7 @@ export default {
         },
         {
           questionText: "Какое изображение (1-4) является зеркальным отражением верхней фигуры?",
-          image: require('./static3/test2/7.png'),
+          image: 'https://i.imgur.com/jQKYhTb.png',
           answers: [
             { text: "Ответ 1", correct: true },
             { text: "Ответ 2", correct: false },
@@ -180,7 +180,7 @@ export default {
         },
         {
           questionText: "При правильном соединении верхние части головоломки создадут одну из следующих фигур (А- Е). Обратите внимание, что стороны, которые обозначены одинаковыми буквами (х, y, z), должны соприкасаться между собой. Выберите правильный ответ.",
-          image: require('./static3/test2/8.jpg'),
+          image: 'https://i.imgur.com/Ow2CPN0.jpeg',
           answers: [
             { text: "Ответ 1", correct: false },
             { text: "Ответ 2", correct: true },
@@ -191,7 +191,7 @@ export default {
         },
         {
           questionText: "Какая из следующих фигур находится внутри квадрата?",
-          image: require('./static3/test2/9.png'),
+          image: 'https://i.imgur.com/9jfrflF.png',
           answers: [
             { text: "Ответ 1", correct: false },
             { text: "Ответ 2", correct: false },
@@ -202,7 +202,7 @@ export default {
         },
         {
           questionText: "Какая фигура (1-5) получится при сложении данного шаблона бумаги? Выберите правильный ответ.",
-          image: require('./static3/test2/10.png'),
+          image: 'https://i.imgur.com/PWciq7V.png',
           answers: [
             { text: "Ответ 1", correct: false },
             { text: "Ответ 2", correct: false },
