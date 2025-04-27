@@ -41,7 +41,6 @@
             <input type="checkbox" v-model="rememberMe">
             <span>Запомнить меня</span>
           </label>
-          <a href="#" class="forgot-password">Забыли пароль?</a>
         </div>
         
         <div v-if="error" class="error-message">{{ error }}</div>
