@@ -46,7 +46,7 @@ export default createStore({
     if (!state.token) return;
 
       try {
-        const response = await axios.post('https://georgiy.pythonanywhere.com/api/add-result/', result, {
+        const response = await axios.post('http://127.0.0.1:8000/api/add-result/', result, {
           headers: {
             Authorization: `Token ${state.token}`,
           },
@@ -63,7 +63,7 @@ export default createStore({
       try {
         console.log('Отправляемые данные:', userData);
         
-        const response = await axios.post('https://georgiy.pythonanywhere.com/api/register/', userData);
+        const response = await axios.post('http://127.0.0.1:8000/api/register/', userData);
         console.log('Ответ сервера:', response.data);
         
         if (response.data.token) {
@@ -85,7 +85,7 @@ export default createStore({
       try {
         console.log('Данные для входа:', credentials);
         
-        const response = await axios.post('https://georgiy.pythonanywhere.com/api/login/', {
+        const response = await axios.post('http://127.0.0.1:8000/api/login/', {
           username: credentials.username,
           password: credentials.password
         });
@@ -121,7 +121,7 @@ export default createStore({
       if (!state.token) return;
 
       try {
-        const response = await axios.get('https://georgiy.pythonanywhere.com/api/user/', {
+        const response = await axios.get('http://127.0.0.1:8000/api/user/', {
           headers: {
             Authorization: `Token ${state.token}`,
           },

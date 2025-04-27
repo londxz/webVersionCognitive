@@ -103,13 +103,15 @@
               <span>Играю в компьютерные игры</span>
             </label>
           </div>
+          <div class="nice-form-group checkbox-group">
+            <label>
+              <input v-model="user.sport" type="checkbox">
+              <span>Занимаюсь спортом</span>
+            </label>
+          </div>
         </div>
         
         <div class="form-row">
-          <div class="nice-form-group">
-            <label for="sport">Занимаюсь спортом</label>
-            <textarea id="sport" v-model="user.diseases" placeholder="Укажите виды спорта (если занимаетесь)" rows="2"></textarea>
-          </div>
           <div class="nice-form-group">
             <label for="diseases">Заболевания</label>
             <textarea id="diseases" v-model="user.diseases" placeholder="Укажите ваши заболевания (если есть)" rows="2"></textarea>
@@ -170,7 +172,7 @@ export default {
         diseases: '',
         smoking: false,
         alcohol: false,
-        sport: '',
+        sport: false,
         insomnia: false,
         current_mood: '',
         gamer: false,

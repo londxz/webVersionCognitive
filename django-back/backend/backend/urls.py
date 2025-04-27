@@ -6,5 +6,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include('api.urls')),
 
-    re_path(r'^.*$', TemplateView.as_view(template_name='index.html'), name='home'),
+    #re_path(r'^.*$', TemplateView.as_view(template_name='index.html'), name='home'),
+    re_path(r'^(?!admin/|api/).*$', TemplateView.as_view(template_name='index.html'), name='home'),
 ]
