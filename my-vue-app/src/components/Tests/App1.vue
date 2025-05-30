@@ -167,7 +167,47 @@ export default {
         perception: {
           title: 'Тесты на восприятие',
           description: 'Проверка восприятия цветов, форм и других визуальных характеристик'
-        }
+        },
+        memoryCategory: {
+          title: 'Память',
+          description: 'Оценка кратковременной и рабочей памяти'
+        },
+        concentrationCategory: {
+          title: 'Внимание и концентрация',
+          description: 'Оценка концентрации внимания и способности к фокусировке'
+        },
+        reactionCategory: {
+          title: 'Реакция',
+          description: 'Оценка скорости реакции и времени отклика'
+        },
+        mathCategory: {
+          title: 'Математические',
+          description: 'Оценка способностей к счету и математическим вычислениям'
+        },
+        logicCategory: {
+          title: 'Логика',
+          description: 'Оценка логического мышления и способности к решению задач'
+        },
+        multitaskCategory: {
+          title: 'Многозадачность',
+          description: 'Оценка способности выполнять несколько задач одновременно'
+        },
+        colorPerceptionCategory: {
+          title: 'Цветовосприятие',
+          description: 'Оценка способности различать тонкие оттенки цветов'
+        },
+        spatialPerceptionCategory: {
+          title: 'Пространственное восприятие',
+          description: 'Оценка способности воспринимать и манипулировать объектами в пространстве'
+        },
+        timePerceptionCategory: {
+          title: 'Временное восприятие',
+          description: 'Оценка чувства времени и временной ориентации'
+        },
+        visualPerceptionCategory: {
+          title: 'Зрительное восприятие',
+          description: 'Оценка способности различать и воспринимать зрительные образы'
+        },
       },
       allTests: [
         {
@@ -284,6 +324,9 @@ export default {
         }
       ],
       // SVG иконки для каждой категории
+      // memoryCategory concentrationCategory reactionCategory mathCategory 
+      // logicCategory multitaskCategory colorPerceptionCategory spatialPerceptionCategory 
+      // timePerceptionCategory visualPerceptionCategory
       categoryIcons: {
         'math': '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7l4-2.5 4 2.5 4-2.5 4 2.5"></path><path d="M4 12l4-2.5 4 2.5 4-2.5 4 2.5"></path><path d="M4 17l4-2.5 4 2.5 4-2.5 4 2.5"></path></svg>',
         'attention': '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>',
@@ -293,7 +336,17 @@ export default {
         'spatial': '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path></svg>',
         'logic': '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="18" r="3"></circle><circle cx="6" cy="6" r="3"></circle><path d="M13 6h3a2 2 0 0 1 2 2v7"></path><path d="M11 18H8a2 2 0 0 1-2-2V9"></path></svg>',
         'time': '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>',
-        'perception': '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="4" r="2"></circle><circle cx="5" cy="12" r="2"></circle><circle cx="19" cy="12" r="2"></circle><circle cx="8" cy="20" r="2"></circle><circle cx="16" cy="20" r="2"></circle><path d="M12 6v4"></path><path d="M7 12h10"></path><path d="M9 18l-1-3"></path><path d="M15 18l1-3"></path></svg>'
+        'perception': '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="4" r="2"></circle><circle cx="5" cy="12" r="2"></circle><circle cx="19" cy="12" r="2"></circle><circle cx="8" cy="20" r="2"></circle><circle cx="16" cy="20" r="2"></circle><path d="M12 6v4"></path><path d="M7 12h10"></path><path d="M9 18l-1-3"></path><path d="M15 18l1-3"></path></svg>',
+        'memoryCategory': '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"></rect><path d="M8 2v4"></path><path d="M16 2v4"></path><circle cx="12" cy="11" r="3"></circle><path d="M12 14v4"></path></svg>',
+        'concentrationCategory': '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>',
+        'reactionCategory': '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-16h-9l1-4z"></path></svg>',
+        'mathCategory': '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7l4-2.5 4 2.5 4-2.5 4 2.5"></path><path d="M4 12l4-2.5 4 2.5 4-2.5 4 2.5"></path><path d="M4 17l4-2.5 4 2.5 4-2.5 4 2.5"></path></svg>',
+        'logicCategory': '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="18" r="3"></circle><circle cx="6" cy="6" r="3"></circle><path d="M13 6h3a2 2 0 0 1 2 2v7"></path><path d="M11 18H8a2 2 0 0 1-2-2V9"></path></svg>',
+        'multitaskCategory': '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="5"/><circle cx="8" cy="16" r="5"/><circle cx="16" cy="16" r="5"/></svg>',
+        'colorPerceptionCategory': '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="4" r="2"></circle><circle cx="5" cy="12" r="2"></circle><circle cx="19" cy="12" r="2"></circle><circle cx="8" cy="20" r="2"></circle><circle cx="16" cy="20" r="2"></circle><path d="M12 6v4"></path><path d="M7 12h10"></path><path d="M9 18l-1-3"></path><path d="M15 18l1-3"></path></svg>',
+        'spatialPerceptionCategory': '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path></svg>',
+        'timePerceptionCategory': '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>',
+        'visualPerceptionCategory': '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="4" r="2"></circle><circle cx="5" cy="12" r="2"></circle><circle cx="19" cy="12" r="2"></circle><circle cx="8" cy="20" r="2"></circle><circle cx="16" cy="20" r="2"></circle><path d="M12 6v4"></path><path d="M7 12h10"></path><path d="M9 18l-1-3"></path><path d="M15 18l1-3"></path></svg>'
       }
     };
   },
@@ -699,6 +752,38 @@ export default {
 
 .icon-perception {
   background-color: #d946ef; /* Фуксия */
+}
+
+/* Категории по тз */
+.icon-memoryCategory {
+  background-color: #14b8a6;
+}
+.icon-concentrationCategory {
+  background-color: #8b5cf6;
+}
+.icon-reactionCategory {
+  background-color: #ec4899;
+}
+.icon-mathCategory {
+  background-color: #6366f1;
+}
+.icon-logicCategory {
+  background-color: #0ea5e9;
+}
+.icon-multitaskCategory {
+  background-color: #f59e0b;
+}
+.icon-colorPerceptionCategory {
+  background-color: #d946ef;
+}
+.icon-spatialPerceptionCategory {
+  background-color: #4f46e5;
+}
+.icon-timePerceptionCategory {
+  background-color: #64748b;
+}
+.icon-visualPerceptionCategory {
+  background-color: #6366f1;
 }
 
 /* Адаптивный дизайн */
